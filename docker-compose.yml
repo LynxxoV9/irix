@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      network: host
+    ports:
+      - "8000:8000"
+
+
+  mcp-server:
+    build:
+      context: ./mcp
+      network: host
+    ports:
+      - "8001:8000"
