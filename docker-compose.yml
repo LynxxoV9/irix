@@ -1,15 +1,58 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: iryx-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: iryx
+      POSTGRES_PASSWORD: iryx_password
+      POSTGRES_DB: iryx_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iryx -d iryx_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - iryx-net
+
   api:
     build:
-      context: ./apps/api
-      network: host
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    container_name: iryx-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://iryx:iryx_password@postgres:5432/iryx_db
+      MCP_SERVER_URL: http://mcp-server:8000
+      STORAGE_DIR: /app/data/artifacts
     ports:
       - "8000:8000"
-
+    volumes:
+      - ./data/artifacts:/app/data/artifacts
+    networks:
+      - iryx-net
 
   mcp-server:
     build:
       context: ./mcp
-      network: host
+      dockerfile: Dockerfile
+    container_name: iryx-mcp-server
+    restart: unless-stopped
     ports:
       - "8001:8000"
+    networks:
+      - iryx-net
+
+volumes:
+  postgres_data:
+
+networks:
+  iryx-net:
+    driver: bridge

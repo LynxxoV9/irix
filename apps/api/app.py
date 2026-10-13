@@ -6,10 +6,16 @@ from apps.api.config import get_settings
 settings = get_settings()
 
 
+from apps.api.database import init_db
+import evidence.models  # Ensure all models are registered with Base metadata
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure evidence storage directory exists at startup
     settings.storage_path
+    # Initialize database tables
+    init_db()
     yield
     # Cleanup tasks on shutdown if needed
 
