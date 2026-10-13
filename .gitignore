@@ -1,3 +1,37 @@
+# Environment and Secrets
 .env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
 enviryx/
-__init__.py
+.venv/
+env/
+venv/
+ENV/
+
+# Data and Artifacts (CDC: do not version sensitive evidence)
+data/
+datasets/samples/
+*.db
+*.sqlite
+*.sqlite3
+
+# Pytest and Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker
+*.local
