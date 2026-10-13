@@ -39,10 +39,12 @@ app.add_middleware(
 from apps.api.routes.investigations import router as investigations_router
 from apps.api.routes.evidence import router as evidence_router
 from apps.api.routes.tools import router as tools_router
+from apps.api.routes.agent import router as agent_router
 
 app.include_router(investigations_router)
 app.include_router(evidence_router)
 app.include_router(tools_router)
+app.include_router(agent_router)
 
 
 @app.get("/", tags=["General"])
