@@ -35,3 +35,6 @@ htmlcov/
 
 # Docker
 *.local
+
+# Internal Checkpoints Tracking
+Check_build.txt

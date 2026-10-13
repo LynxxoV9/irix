@@ -14,3 +14,7 @@ psycopg2-binary>=2.9.9
 # Testing
 pytest>=8.0.0
 pytest-asyncio>=0.23.0
+
+# MCP Protocol
+mcp<2
+httpx-sse>=0.4
